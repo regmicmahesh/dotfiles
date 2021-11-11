@@ -1,14 +1,20 @@
 "------------------ PLUGIN CONFIGURATION --------------"
 "
   call plug#begin('~/.vim/plugged')
+    Plug 'nvim-lualine/lualine.nvim'
+    Plug 'github/copilot.vim'
+    Plug 'mg979/vim-visual-multi', {'branch': 'master'}
     Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'tell-k/vim-autopep8'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dracula/vim'
     Plug 'hrsh7th/vim-vsnip-integ'
     Plug 'tpope/vim-surround'
     Plug 'cohama/agit.vim'
     Plug 'majutsushi/tagbar'
-    Plug 'morhetz/gruvbox'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-lua/plenary.nvim'
     Plug 'hrsh7th/nvim-compe'
@@ -87,12 +93,12 @@ EOF
  let g:codi#virtual_text=1
  "---------------------- Telescope Config ---------------------"
 
- nnoremap <leader>tff <cmd>Telescope find_files<cr>
- nnoremap <leader>tlg <cmd>Telescope live_grep<cr>
+ nnoremap <leader>ff <cmd>Telescope find_files<cr>
+ nnoremap <leader>lg <cmd>Telescope live_grep<cr>
  nnoremap <leader>fb <cmd>Telescope buffers<cr>
  nnoremap <leader>tgf <cmd>Telescope git_files<cr>
  nnoremap <leader>tbt <cmd>TagbarToggle<cr>
- nnoremap <leader>ee <cmd>Telescope file_browser<cr>
+ "nnoremap <leader>ee <cmd>Telescope file_browser<cr>
 
  "---------------------- Telescope End ---------------------"
  
@@ -139,7 +145,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'clangd', 'tsserver' , 'terraformls', 'svelte' }
+local servers = { 'pyright', 'clangd', 'tsserver' , 'terraformls', 'svelte', 'solang' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -168,7 +174,39 @@ EOF
  "------------------------ NETRW End ----------------------"
 
 
-au VimEnter * :if bufname()=='' | call execute('CocCommand explorer') | endif
+"au VimEnter * :if bufname()=='' | call execute('CocCommand explorer') | endif
 let b:coc_suggest_disable = 1
 
 
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <leader>z :ZoomToggle<CR>
+
+:command Q q
+
+set scrolloff=5
+
+" " Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
+
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true

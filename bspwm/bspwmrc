@@ -36,7 +36,7 @@ bspc rule -a GLava state=floating layer=below sticky=true locked=true border=off
 autorandr --change
 
 $HOME/.config/polybar/launch.sh --forest
-nitrogen --set-auto /home/regmicmahesh/Pictures/wallpaper.jpg --head=0 && nitrogen --set-auto /home/regmicmahesh/Pictures/wallpaper.jpg --head=1
+nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=0 && nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=1
 setxkbmap -layout us -option caps:escape
 
 

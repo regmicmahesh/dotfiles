@@ -1,9 +1,19 @@
 env:
   WINIT_X11_SCALE_FACTOR: "1.0"
+
 font:
-  normal:
-    family: "Hack"
-  size: 11.0
+    normal:
+        family: SauceCodePro Nerd Font
+        style: Regular
+    bold:
+        family: SauceCodePro Nerd Font
+        style: Bold
+    italic:
+        family: SauceCodePro Nerd Font
+        style: Italic
+
+    # Point size of the font
+    size: 12
 
 custom_cursor_colors: true
 
@@ -19,7 +29,8 @@ colors:
   # Default colors
   primary:
     background: '0x1d1f21'
-    foreground: '0xc5c8c6'
+    #foreground: '0xc5c8c6'
+    foreground: '0xffffff'
 
   # Normal colors
   normal:
@@ -30,7 +41,8 @@ colors:
     blue:    '0x5f819d'
     magenta: '0x85678f'
     cyan:    '0x5e8d87'
-    white:   '0x707880'
+    ##white:   '0x707880'
+    white:   '0xffffff'
 
   # Bright colors
   bright:
@@ -41,5 +53,6 @@ colors:
     blue:    '0x81a2be'
     magenta: '0xb294bb'
     cyan:    '0x8abeb7'
-    white:   '0xc5c8c6'
+    white:   '0xffffff'
+    #white:   '0xc5c8c6'
 

@@ -1,88 +1,55 @@
-
-vim.o.completeopt = "menuone,noselect"
-
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = false;
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    vsnip = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    spell = true;
-    tags = true;
-    snippets_nvim = true;
-    treesitter = true;
-  };
-}
 local lsp = vim.lsp
 local handlers = lsp.handlers
+local cmp = require'cmp'
 
--- Hover doc popup
-local pop_opts = { border = "rounded", max_width = 80 }
-handlers["textDocument/hover"] = lsp.with(handlers.hover, pop_opts)
-handlers["textDocument/signatureHelp"] = lsp.with(handlers.signature_help, pop_opts)
+vim.o.completeopt = "menuone,noselect,menu"
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+require'lualine'.setup{
+  options = { theme = onedark }
+}
 
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
+cmp.setup({
+    snippet = {
+      expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+      --['<C-e>'] = cmp.mapping({
+      --    i = cmp.mapping.abort(),
+      --    c = cmp.mapping.close(),
+      --  }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        -- { name = 'vsnip' }, -- For vsnip users.
+        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
+        -- { name = 'snippy' }, -- For snippy users.
+      }, {
+        { name = 'buffer' },
+      })
+  })
 
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-  return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    -- If <S-Tab> is not working in your terminal, change it to <C-h>
-    return t "<S-Tab>"
-  end
-end
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.terraformls.setup{}
-require'lspconfig'.clangd.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.svelte.setup{}
+-- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+  --
+require'lspconfig'.tsserver.setup{ capabilities = capabilities }
+require'lspconfig'.pyright.setup{ capabilities = capabilities }
+require'lspconfig'.terraformls.setup{ capabilities = capabilities }
+require'lspconfig'.clangd.setup{ capabilities = capabilities }
+require'lspconfig'.html.setup{ capabilities = capabilities }
+require'lspconfig'.svelte.setup{ capabilities = capabilities }
+require'lspconfig'.solang.setup{ capabilities = capabilities }
 
