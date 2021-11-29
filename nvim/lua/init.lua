@@ -2,13 +2,14 @@ local lsp = vim.lsp
 local handlers = lsp.handlers
 local cmp = require'cmp'
 
-vim.o.completeopt = "menuone,noselect,menu"
+vim.o.completeopt = "menuone,noselect,longest"
+
 
 require'lualine'.setup{
   options = { theme = onedark }
 }
 
-cmp.setup({
+ cmp.setup({
     snippet = {
       expand = function(args)
         -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
@@ -52,4 +53,4 @@ require'lspconfig'.clangd.setup{ capabilities = capabilities }
 require'lspconfig'.html.setup{ capabilities = capabilities }
 require'lspconfig'.svelte.setup{ capabilities = capabilities }
 require'lspconfig'.solang.setup{ capabilities = capabilities }
-
+require'lspconfig'.sumneko_lua.setup{capabilities = capabilities}
