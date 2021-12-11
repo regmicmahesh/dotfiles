@@ -1,13 +1,21 @@
 "=============================================
 "           PLUGIN CONFIGURATION
 "=============================================
-"
+
+
+
   call plug#begin('~/.vim/plugged')
-    Plug 'w0rp/ale'
+  Plug 'ThePrimeagen/vim-be-good'
+    Plug 'wakatime/vim-wakatime'
+    Plug 'TimUntersberger/neogit'
+    Plug 'RyanMillerC/better-vim-tmux-resizer'
+    Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lualine/lualine.nvim'
     Plug 'github/copilot.vim'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+    Plug 'mattn/emmet-vim'
     Plug 'sheerun/vim-polyglot'
+    Plug 'kdheepak/tabline.nvim'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dracula/vim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -39,14 +47,13 @@
  set nowritebackup
  set updatetime=100
  set shortmess+=c
- set signcolumn=yes
+ set signcolumn=number
  set wrap
  syntax enable
  set scrolloff=5
  hi Normal guibg=NONE ctermbg=NONE
- 
  command! W :w
-:command Q q
+ command Q q
  
  noremap j gj
  noremap k gk
@@ -63,6 +70,7 @@
  
  let mapleader=","
  let g:mapleader=","
+ let g:user_emmet_leader_key = ','
  
  nmap <silent> <c-k> :wincmd k<CR>
  nmap <silent> <c-j> :wincmd j<CR>
@@ -82,7 +90,6 @@
  set guicursor=
  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
  let g:codi#virtual_text=1
-
  "=============================================
  "            TELESCOPE MAPPINGS
  "=============================================
@@ -91,6 +98,7 @@
  nnoremap <leader>lg <cmd>Telescope live_grep<cr>
  nnoremap <leader>fb <cmd>Telescope buffers<cr>
  nnoremap <leader>tgf <cmd>Telescope git_files<cr>
+
  nnoremap <leader>tbt <cmd>TagbarToggle<cr>
 
 
@@ -100,7 +108,58 @@
  
 
  nnoremap <silent> <C-e> :CocCommand explorer<CR>
- let b:coc_suggest_disable = 1
+
+nmap <silent> gdi <Plug>(coc-definition)
+nmap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<CR> 
+nmap <silent> gds :call CocAction('jumpDefinition', 'split')<CR> 
+
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gci <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+
+"=============================================
+" COC DOCUMENTATION FUNCTION
+" ============================================
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Formatting selected code.
+xmap <leader>cf  <Plug>(coc-format-selected)
+nmap <leader>af  :call CocAction('format')<CR>
+
+nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>cc  <Plug>(coc-fix-current)
+
+nmap <leader>rn <Plug>(coc-rename)
+
+nnoremap <silent> <C-e> :CocCommand explorer<CR>
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+
+"lua require('telescope').load_extension('coc')
 
 
   "=============================================
@@ -141,26 +200,15 @@ vnoremap <leader>P "+P
 "       COPILOT CONFIGURATION
 "=====================================
 
-imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+imap <silent><script><expr> <C-x> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
 
 
 "=========================================
 "           ALE CONFIGURATION
 "=========================================
-
-let g:ale_fixers = ['prettier', 'eslint']
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-
-
-nmap <leader>ac  :ALECodeAction<CR>
-vmap <leader>ac  :ALECodeAction<CR>
-
-nmap <leader>af  :ALEFix<CR>
-vmap <leader>af  :ALEFix<CR>
-
-nmap <silent> gd :ALEGoToDefinition<CR>
-nmap <silent> gr :ALEFindReferences<CR>
-nmap <silent> <space>rn :ALERename<CR>
+lua << END
+  require'lualine'.setup()
+  require'tabline'.setup()
+  require'neogit'.setup()
+END
