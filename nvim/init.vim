@@ -2,10 +2,8 @@
 "           PLUGIN CONFIGURATION
 "=============================================
 
-
-
   call plug#begin('~/.vim/plugged')
-  Plug 'ThePrimeagen/vim-be-good'
+    Plug 'ThePrimeagen/vim-be-good'
     Plug 'wakatime/vim-wakatime'
     Plug 'TimUntersberger/neogit'
     Plug 'RyanMillerC/better-vim-tmux-resizer'
@@ -60,8 +58,7 @@
  
  set ignorecase
  set smartcase
- set foldmethod=indent
- set foldlevel=99
+ set foldmethod=manual
  
  :vnoremap < <gv
  :vnoremap > >gv
@@ -80,6 +77,8 @@
  
  nnoremap <CR> :noh<CR><CR>
 
+ vnoremap J :m '>+1<CR>gv=gv
+ vnoremap K :m '<-2<CR>gv=gv
 
  "=============================================
  "            THEME CONFIGURATION
@@ -209,6 +208,19 @@ let g:copilot_no_tab_map = v:true
 "=========================================
 lua << END
   require'lualine'.setup()
-  require'tabline'.setup()
+--   require'tabline'.setup()
   require'neogit'.setup()
 END
+
+
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+"=========================================
+"           REMEMBER CODE FOLDS
+"========================================
+
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave *.* silent! mkview
+  autocmd BufWinEnter *.* silent! loadview
+augroup END

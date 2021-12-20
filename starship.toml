@@ -1,0 +1,30 @@
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[battery]
+disabled = true
+
+[aws]
+disabled = true
+format = 'on [$symbol($profile )(\($region\) )]($style)'
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
+
+
+[package]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[python]
+disabled = false
+
+[nodejs]
+disabled = true
+
+[line_break]
+disabled = true
