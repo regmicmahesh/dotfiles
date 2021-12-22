@@ -1,0 +1,8 @@
+configuration {
+	theme: "/usr/share/rofi/themes/Monokai.rasi";
+	font: "CascadiaCode 14";
+	lines: 15;
+	width: 40;
+	show-icons: true;
+	line-margin: 50;
+}

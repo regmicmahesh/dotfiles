@@ -1,6 +1,7 @@
 #! /bin/sh
 
 pgrep -x sxhkd > /dev/null || sxhkd &
+killall lemonbar
 bspc rule -a Glava state=floating manage=off
 
 
@@ -16,8 +17,11 @@ bspc config normal_border_color "#2f343f"
 
 bspc config ignore_ewmh_focus true
 
-bspc monitor HDMI-1 -d 1:dev-tmux 2:dev-browser
-bspc monitor eDP-1 -d 3:browse-anything 4:discord 5:slack
+#bspc monitor HDMI-1 -d 1:dev-tmux 2:dev-browser
+#bspc monitor eDP-1 -d 3:browse-anything 4:discord 5:slack
+
+bspc monitor HDMI-1 -d 1 2
+bspc monitor eDP-1 -d 3 4 5
 
 #bspc monitor eDP-1 -d 1:dev-tmux 2:dev-browser 3:slack
 
@@ -29,13 +33,16 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 #bspc rule -a Brave desktop='^2'
-bspc rule -a lightcord desktop='^4'
-bspc rule -a Slack desktop='^5'
+#bspc rule -a lightcord desktop='^4'
+#bspc rule -a Slack desktop='^5'
 
 
 autorandr --change
 
-$HOME/.config/polybar/launch.sh --forest
+
+$HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30+1920" -a 15 | /bin/bash & 
+$HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30" -a 15 | /bin/bash &
+
 nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=0 && nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=1
 setxkbmap -layout us -option caps:escape
 
