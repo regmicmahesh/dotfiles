@@ -20,10 +20,10 @@ bspc config ignore_ewmh_focus true
 #bspc monitor HDMI-1 -d 1:dev-tmux 2:dev-browser
 #bspc monitor eDP-1 -d 3:browse-anything 4:discord 5:slack
 
-bspc monitor HDMI-1 -d 1 2
-bspc monitor eDP-1 -d 3 4 5
+bspc monitor eDP-1 -d 1 2
+bspc monitor HDMI-1 -d 3 4 5
 
-#bspc monitor eDP-1 -d 1:dev-tmux 2:dev-browser 3:slack
+#bspc monitor eDP-1 -d 1 2 3
 
 bspc config border_width         4
 bspc config window_gap          6
@@ -37,7 +37,7 @@ bspc config gapless_monocle      true
 #bspc rule -a Slack desktop='^5'
 
 
-autorandr --change
+autorandr --load default
 
 
 $HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30+1920" -a 15 | /bin/bash & 
@@ -45,6 +45,5 @@ $HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30" -a 15 | 
 
 nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=0 && nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=1
 setxkbmap -layout us -option caps:escape
-
 
 dunst

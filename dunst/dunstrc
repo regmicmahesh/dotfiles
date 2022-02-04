@@ -1,5 +1,5 @@
 [global]
-    font = Monospace 8
+    font = CascadiaCode 12
 
     # allow a small subset of html markup:
     # <b>bold</b>
@@ -99,7 +99,7 @@
     separator_height = 2
 
     # padding between text and separator
-    padding = 8
+    padding = 18
 
     # horizontal padding
     horizontal_padding = 8
@@ -181,9 +181,9 @@
 # NOTE: It might be helpful to run dunst -print in a terminal in order to find
 # fitting options for rules.
 
-#[espeak]
-#    summary = "*"
-#    script = dunst_espeak.sh
+[espeak]
+    summary = "*"
+    script = /home/regmicmahesh/.config/dunst/play.sh
 
 #[script-test]
 #    summary = "*script*"
@@ -220,3 +220,5 @@
 #    summary = *twitter.com*
 #    urgency = normal
 #
+
+

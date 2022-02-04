@@ -33,17 +33,27 @@ GetVolume(){
 GetNetwork(){
         # Get the network
         NETWORK=$(nmcli dev status | grep  -E "wl.[0-9]*"  | head -n 1 | sed 's/    */:/g' | cut -d ":" -f 3) #3-4 for ssid
-        echo -n "%{A:/usr/bin/networkmanager_dmenu:}$NETWORK%{A}"
+        echo -n "%{A:/usr/bin/networkmanager_dmenu -l -1:}$NETWORK%{A}"
 }
 
 GetWindowName(){
         # Get the window name
         WINDOW_NAME=$(xdotool getactivewindow getwindowname)
-        echo -n "$WINDOW_NAME"
+        echo -n "$WINDOW_NAME" | cut -c 1-20
+}
+
+GetMemoryUsage(){
+        MEMORY=$(free -t | awk 'NR == 2 {printf("Memory: %.2f%"), $3/$2*100}')
+        echo -n "$MEMORY"
+}
+
+GetCPUUsage(){
+        CPU=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
+        echo -n "CPU: $CPU"
 }
 
 LockScreen(){
-        echo -n "%{A:betterlockscreen -l:}Lock%{A}"
+        echo -n "%{A:betterlockscreen -l -u $HOME/Pictures/wallpaper.png:}Lock%{A}"
 }
 
 Shutdown(){
@@ -51,6 +61,6 @@ Shutdown(){
 }
 
 while true; do
-        echo "  $(Clock) | $(GetWorkspace) | $(GetVolume) | $(GetNetwork) | $(GetWindowName) | %{r}$(LockScreen) | $(Shutdown) %{r} "
+        echo "  $(Clock) | $(GetWorkspace) | $(GetVolume) | $(GetNetwork) | $(GetWindowName) | $(GetMemoryUsage) | $(GetCPUUsage) %{r}$(LockScreen) | $(Shutdown) %{r} "
         sleep 0.5
 done

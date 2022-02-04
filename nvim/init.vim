@@ -3,15 +3,11 @@
 "=============================================
 
   call plug#begin('~/.vim/plugged')
-    Plug 'ThePrimeagen/vim-be-good'
-    Plug 'wakatime/vim-wakatime'
-    Plug 'TimUntersberger/neogit'
     Plug 'RyanMillerC/better-vim-tmux-resizer'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lualine/lualine.nvim'
     Plug 'github/copilot.vim'
     Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-    Plug 'mattn/emmet-vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'kdheepak/tabline.nvim'
     Plug 'christoomey/vim-tmux-navigator'
@@ -24,6 +20,7 @@
     Plug 'neoclide/coc.nvim'
     Plug 'airblade/vim-gitgutter'
     Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'APZelos/blamer.nvim'
   call plug#end()
 
 "=============================================
@@ -37,6 +34,7 @@
  set ruler
  set incsearch
  set expandtab
+ set termguicolors
  set autowriteall
  set tabstop=2
  set shiftwidth=2
@@ -94,8 +92,8 @@
  "=============================================
 
  nnoremap <leader>ff <cmd>Telescope find_files<cr>
- nnoremap <leader>lg <cmd>Telescope live_grep<cr>
  nnoremap <leader>fb <cmd>Telescope buffers<cr>
+ nnoremap <leader>lg <cmd>Telescope live_grep<cr>
  nnoremap <leader>tgf <cmd>Telescope git_files<cr>
 
  nnoremap <leader>tbt <cmd>TagbarToggle<cr>
@@ -202,18 +200,10 @@ vnoremap <leader>P "+P
 imap <silent><script><expr> <C-x> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
 
-
-"=========================================
-"           ALE CONFIGURATION
-"=========================================
-lua << END
-  require'lualine'.setup()
---   require'tabline'.setup()
-  require'neogit'.setup()
-END
-
-
+"=====================================
+"         GO PRE SAVE 
 autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+"=====================================
 
 "=========================================
 "           REMEMBER CODE FOLDS
@@ -224,3 +214,37 @@ augroup remember_folds
   autocmd BufWinLeave *.* silent! mkview
   autocmd BufWinEnter *.* silent! loadview
 augroup END
+
+
+"=========================================
+"             GIT BLAMER
+"=========================================
+
+nnoremap <leader>bt :BlamerShow<CR>
+
+"=========================================
+"             GO DEBUG CONFIGURATION
+"=========================================
+
+nnoremap <leader>dr :GoDebugStart --check-go-version=false<CR>
+nnoremap <leader>ds :GoDebugStop<CR>
+nnoremap <leader>db :GoDebugBreakpoint<CR>
+
+
+nnoremap <leader>dn :GoDebugNext<CR>
+nnoremap <leader>dc :GoDebugContinue<CR>
+
+nnoremap <leader>dp :GoDebugPrint 
+
+lua require('lualine').setup()
+lua require('tabline').setup()
+
+
+"nnoremap b1 :1b<CR>
+"nnoremap b2 :2b<CR>
+"nnoremap b3 :3b<CR>
+"nnoremap b4 :4b<CR>
+"nnoremap b5 :5b<CR>
+"
+"nnoremap bp :bp<CR>
+"nnoremap bn :bn<CR>
