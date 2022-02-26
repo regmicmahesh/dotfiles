@@ -4,6 +4,9 @@ Print
 super + Return
 	alacritty
 
+super + q
+	clipmenu
+
 super + shift + d
 	rofi -show run
 

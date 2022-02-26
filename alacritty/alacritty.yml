@@ -1,5 +1,13 @@
 env:
   WINIT_X11_SCALE_FACTOR: "1.0"
+  TERM: alacritty
+
+window:
+  opacity: 0.5
+  decorations: none
+  padding:
+    x: 15
+    y: 15
 
 font:
     normal:
@@ -30,7 +38,8 @@ shell:
 colors:
   # Default colors
   primary:
-    background: '0x1d1f21'
+    background: '0x282a36'
+    #background: '0x492b53'
     #foreground: '0xc5c8c6'
     foreground: '0xffffff'
 

@@ -2,7 +2,6 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 killall lemonbar
-bspc rule -a Glava state=floating manage=off
 
 
 bspc config top_padding 0
@@ -11,22 +10,19 @@ bspc config click_to_focus		any
 bspc config focus_follows_pointer false
 
 bspc config pointer_follows_monitor	true
-
-bspc config focused_border_color "#000000" 
-bspc config normal_border_color "#2f343f"
+bspc config focused_border_color "#1d1f21"
+bspc config normal_border_color "#1d1f21"
 
 bspc config ignore_ewmh_focus true
 
-#bspc monitor HDMI-1 -d 1:dev-tmux 2:dev-browser
-#bspc monitor eDP-1 -d 3:browse-anything 4:discord 5:slack
 
 bspc monitor eDP-1 -d 1 2
 bspc monitor HDMI-1 -d 3 4 5
 
 #bspc monitor eDP-1 -d 1 2 3
 
-bspc config border_width         4
-bspc config window_gap          6
+bspc config border_width 0
+bspc config window_gap 15
 
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
@@ -40,10 +36,14 @@ bspc config gapless_monocle      true
 autorandr --load default
 
 
-$HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30+1920" -a 15 | /bin/bash & 
-$HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30" -a 15 | /bin/bash &
+#$HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30+1920" -a 15 | /bin/bash & 
+#$HOME/.config/bspwm/lemon.sh | lemonbar -f "Cascadia Code" -g "1920x30" -a 15 | /bin/bash &
 
-nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=0 && nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.png --head=1
+nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.jpg --head=0 && nitrogen --set-zoom-fill /home/regmicmahesh/Pictures/wallpaper.jpg --head=1
 setxkbmap -layout us -option caps:escape
 
-dunst
+#dunst
+killall xcompmgr
+killall glava
+xcompmgr -c  &
+glava

@@ -12,7 +12,7 @@
    as a 2D sampler.
    
    See documentation for more details. */
-#request mod bars
+#request mod graph
 
 
 
@@ -35,7 +35,7 @@
               Has very little performance impact.
     
    "none"   - Disable window opacity completely. */
-#request setopacity "xroot"
+#request setopacity "native"
 
 /* Whether to mirror left and right audio input channels from PulseAudio.*/
 #request setmirror false
@@ -70,7 +70,7 @@ request settitle "GLava"
    will do nothing, but you can use "!+" and "!-" to stack on top
    or below other windows.
 */
-#request setxwintype "normal"
+#request setxwintype "dock"
 
 /* (X11 only) EWMH Window state atoms (multiple can be specified).
    Possible values are:

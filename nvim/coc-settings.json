@@ -37,7 +37,7 @@
   ],
   "yaml.schemas": {
     "https://raw.githubusercontent.com/lalcebo/json-schema/master/serverless/reference.json": "serverless.yml",
-    "kubernetes": ["k8s.yaml"],
+    "kubernetes": ["*.yaml"],
     "https://raw.githubusercontent.com/GoogleContainerTools/skaffold/master/docs/content/en/schemas/v2beta22.json": "skaffold.yaml",
     "https://s3.amazonaws.com/cfn-resource-specifications-us-east-1-prod/schemas/2.15.0/all-spec.json": "*-template.yaml"
   },

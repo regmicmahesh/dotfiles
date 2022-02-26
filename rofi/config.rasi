@@ -1,8 +1,8 @@
 configuration {
-	theme: "/usr/share/rofi/themes/Monokai.rasi";
-	font: "CascadiaCode 14";
+	theme: "/usr/share/rofi/themes/dmenu.rasi";
+	font: "CascadiaCode 100";
 	lines: 15;
-	width: 40;
-	show-icons: true;
+	show-icons: false;
 	line-margin: 50;
+	window-format: "{c}";
 }
